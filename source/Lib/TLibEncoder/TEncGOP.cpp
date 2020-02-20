@@ -2264,6 +2264,8 @@ Void TEncGOP::xCalculateAddPSNRs( const Bool isField, const Bool isFieldTopField
   }
 }
 
+// iagostorch
+// o PSNR é calculado neste método, no ELSE
 Void TEncGOP::xCalculateAddPSNR( TComPic* pcPic, TComPicYuv* pcPicD, const AccessUnit& accessUnit, Double dEncTime, const InputColourSpaceConversion conversion, const TEncAnalyze::OutputLogControl &outputLogCtrl, Double* PSNR_Y )
 {
   TEncAnalyze::ResultData result;
@@ -2363,10 +2365,12 @@ Void TEncGOP::xCalculateAddPSNR( TComPic* pcPic, TComPicYuv* pcPicD, const Acces
   else
 #endif
   {
+      //cout << "PRIMEIRO ELSE" << endl;
     for(Int chan=0; chan<pcPicD->getNumberValidComponents(); chan++)
     {
       const ComponentID ch=ComponentID(chan);
-      const TComPicYuv *pOrgPicYuv =(conversion!=IPCOLOURSPACE_UNCHANGED) ? pcPic ->getPicYuvTrueOrg() : pcPic ->getPicYuvOrg();
+//      const TComPicYuv *pOrgPicYuv =(conversion!=IPCOLOURSPACE_UNCHANGED) ? pcPic ->getPicYuvTrueOrg() : pcPic ->getPicYuvOrg(); // <- original
+      const TComPicYuv *pOrgPicYuv =(conversion!=IPCOLOURSPACE_UNCHANGED) ? pcPic ->get_LF_PicYuvTrueOrg() : pcPic ->get_LF_PicYuvOrg(); // < Pega o LF de referencia, sem codificação
       const Pel*  pOrg       = pOrgPicYuv->getAddr(ch);
       const Int   iOrgStride = pOrgPicYuv->getStride(ch);
       Pel*  pRec             = picd.getAddr(ch);
@@ -2375,15 +2379,22 @@ Void TEncGOP::xCalculateAddPSNR( TComPic* pcPic, TComPicYuv* pcPicD, const Acces
       const Int   iHeight = pcPicD->getHeight(ch) - ((m_pcEncTop->getPad(1) >> (pcPic->isField()?1:0)) >> pcPic->getComponentScaleY(ch));
 
       Int   iSize   = iWidth*iHeight;
-
       UInt64 uiSSDtemp=0;
       for(Int y = 0; y < iHeight; y++ )
       {
+          //cout << y << endl;
         for(Int x = 0; x < iWidth; x++ )
         {
-          Intermediate_Int iDiff = (Intermediate_Int)( pOrg[x] - pRec[x] );
+            //cout << x << endl;
+            //cout << "pOrg " << pOrg[x] << endl;
+            //cout << "pRec " << pRec[x] << endl;
+            //cout << endl;
+            Intermediate_Int iDiff = (Intermediate_Int)( pOrg[x] - pRec[x] );
           uiSSDtemp   += iDiff * iDiff;
         }
+//        cout << "pOrg " << pOrg << endl;
+//        cout << "pRec " << pRec << endl;
+//        cout << endl;
         pOrg += iOrgStride;
         pRec += iRecStride;
       }
@@ -2404,7 +2415,8 @@ Void TEncGOP::xCalculateAddPSNR( TComPic* pcPic, TComPicYuv* pcPicD, const Acces
     for(Int chan=0; chan<pcPicD->getNumberValidComponents(); chan++)
     {
       const ComponentID ch  = ComponentID(chan);
-      const TComPicYuv *pOrgPicYuv =(conversion!=IPCOLOURSPACE_UNCHANGED) ? pcPic ->getPicYuvTrueOrg() : pcPic ->getPicYuvOrg();
+      //const TComPicYuv *pOrgPicYuv =(conversion!=IPCOLOURSPACE_UNCHANGED) ? pcPic ->getPicYuvTrueOrg() : pcPic ->getPicYuvOrg();
+      const TComPicYuv *pOrgPicYuv =(conversion!=IPCOLOURSPACE_UNCHANGED) ? pcPic ->get_LF_PicYuvTrueOrg() : pcPic ->get_LF_PicYuvOrg();
       const Pel*  pOrg      = pOrgPicYuv->getAddr(ch);
       const Int   orgStride = pOrgPicYuv->getStride(ch);
       const Pel*  pRec      = picd.getAddr(ch);

@@ -92,6 +92,8 @@ Void TComPic::create( const TComSPS &sps, const TComPPS &pps, const Bool bIsVirt
   {
     m_apcPicYuv[PIC_YUV_ORG    ]   = new TComPicYuv;  m_apcPicYuv[PIC_YUV_ORG     ]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
     m_apcPicYuv[PIC_YUV_TRUE_ORG]  = new TComPicYuv;  m_apcPicYuv[PIC_YUV_TRUE_ORG]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
+    m_apcPicYuv[LF_YUV_REF]  =       new TComPicYuv;  m_apcPicYuv[LF_YUV_REF]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
+    m_apcPicYuv[LF_YUV_TRUE_REF]  =  new TComPicYuv;  m_apcPicYuv[LF_YUV_TRUE_REF]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
   }
 #if REDUCED_ENCODER_MEMORY
   if (bCreateForImmediateReconstruction)
@@ -125,10 +127,12 @@ Void TComPic::prepareForEncoderSourcePicYuv()
   if (m_apcPicYuv[PIC_YUV_ORG    ]==NULL)
   {
     m_apcPicYuv[PIC_YUV_ORG    ]   = new TComPicYuv;  m_apcPicYuv[PIC_YUV_ORG     ]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
+    m_apcPicYuv[LF_YUV_REF    ]   = new TComPicYuv;  m_apcPicYuv[LF_YUV_REF     ]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
   }
   if (m_apcPicYuv[PIC_YUV_TRUE_ORG    ]==NULL)
   {
     m_apcPicYuv[PIC_YUV_TRUE_ORG]  = new TComPicYuv;  m_apcPicYuv[PIC_YUV_TRUE_ORG]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
+    m_apcPicYuv[LF_YUV_TRUE_REF]  = new TComPicYuv;  m_apcPicYuv[LF_YUV_TRUE_REF]->create( iWidth, iHeight, chromaFormatIDC, uiMaxCuWidth, uiMaxCuHeight, uiMaxDepth, true );
   }
 }
 

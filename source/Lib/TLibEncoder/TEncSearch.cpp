@@ -2263,11 +2263,19 @@ TEncSearch::estIntraPredLumaQT(TComDataCU* pcCU,
     //===== init pattern for luma prediction =====
     DEBUG_STRING_NEW(sTemp2)
 
+    // iagostorch
+    // essas variáveis determinam quantos modos avalair no RMD e quantos vão para o RDO
     //===== determine set of modes to be tested (using prediction signal only) =====
-    Int numModesAvailable     = 35; //total number of Intra modes
+//    Int numModesAvailable     = 35; //total number of Intra modes
+//    UInt uiRdModeList[FAST_UDI_MAX_RDMODE_NUM];
+//    Int numModesForFullRD = m_pcEncCfg->getFastUDIUseMPMEnabled()?g_aucIntraModeNumFast_UseMPM[ uiWidthBit ] : g_aucIntraModeNumFast_NotUseMPM[ uiWidthBit ];
+    Int numModesAvailable     = 1; //total number of Intra modes
     UInt uiRdModeList[FAST_UDI_MAX_RDMODE_NUM];
-    Int numModesForFullRD = m_pcEncCfg->getFastUDIUseMPMEnabled()?g_aucIntraModeNumFast_UseMPM[ uiWidthBit ] : g_aucIntraModeNumFast_NotUseMPM[ uiWidthBit ];
-
+    Int numModesForFullRD = 1;
+    if(uiWidthBit == 100){
+        cout << "." << endl;
+    }
+    
     // this should always be true
     assert (tuRecurseWithPU.ProcessComponentSection(COMPONENT_Y));
     initIntraPatternChType( tuRecurseWithPU, COMPONENT_Y, true DEBUG_STRING_PASS_INTO(sTemp2) );

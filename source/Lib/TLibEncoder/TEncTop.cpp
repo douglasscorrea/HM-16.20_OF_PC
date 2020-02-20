@@ -326,7 +326,7 @@ Void TEncTop::deletePicBuffer()
  \retval  accessUnitsOut      list of output access units
  \retval  iNumEncoded         number of encoded pictures
  */
-Void TEncTop::encode( Bool flush, TComPicYuv* pcPicYuvOrg, TComPicYuv* pcPicYuvTrueOrg, const InputColourSpaceConversion snrCSC, TComList<TComPicYuv*>& rcListPicYuvRecOut, std::list<AccessUnit>& accessUnitsOut, Int& iNumEncoded )
+Void TEncTop::encode( Bool flush, TComPicYuv* LF_pcPicYuvOrg, TComPicYuv* LF_pcPicYuvTrueOrg, TComPicYuv* pcPicYuvOrg, TComPicYuv* pcPicYuvTrueOrg, const InputColourSpaceConversion snrCSC, TComList<TComPicYuv*>& rcListPicYuvRecOut, std::list<AccessUnit>& accessUnitsOut, Int& iNumEncoded )
 {
   if (pcPicYuvOrg != NULL)
   {
@@ -341,6 +341,11 @@ Void TEncTop::encode( Bool flush, TComPicYuv* pcPicYuvOrg, TComPicYuv* pcPicYuvT
     xGetNewPicBuffer( pcPicCurr, ppsID );
     pcPicYuvOrg->copyToPic( pcPicCurr->getPicYuvOrg() );
     pcPicYuvTrueOrg->copyToPic( pcPicCurr->getPicYuvTrueOrg() );
+    LF_pcPicYuvOrg->copyToPic( pcPicCurr->get_LF_PicYuvOrg() );
+    LF_pcPicYuvTrueOrg->copyToPic( pcPicCurr->get_LF_PicYuvTrueOrg() );
+    
+//    LF_pcPicYuvOrg->copyToPic( pcPicCurr->getPicYuvOrg() );
+//    LF_pcPicYuvTrueOrg->copyToPic( pcPicCurr->getPicYuvTrueOrg() );
 
     // compute image characteristics
     if ( getUseAdaptiveQP() )
@@ -395,7 +400,7 @@ Void separateFields(Pel* org, Pel* dstField, UInt stride, UInt width, UInt heigh
 
 }
 
-Void TEncTop::encode(Bool flush, TComPicYuv* pcPicYuvOrg, TComPicYuv* pcPicYuvTrueOrg, const InputColourSpaceConversion snrCSC, TComList<TComPicYuv*>& rcListPicYuvRecOut, std::list<AccessUnit>& accessUnitsOut, Int& iNumEncoded, Bool isTff)
+Void TEncTop::encode(Bool flush, TComPicYuv* LF_pcPicYuvOrg, TComPicYuv* LF_pcPicYuvTrueOrg, TComPicYuv* pcPicYuvOrg, TComPicYuv* pcPicYuvTrueOrg, const InputColourSpaceConversion snrCSC, TComList<TComPicYuv*>& rcListPicYuvRecOut, std::list<AccessUnit>& accessUnitsOut, Int& iNumEncoded, Bool isTff)
 {
   iNumEncoded = 0;
 

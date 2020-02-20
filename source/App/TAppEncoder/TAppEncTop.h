@@ -60,6 +60,7 @@ private:
   // class interface
   TEncTop                    m_cTEncTop;                    ///< encoder class
   TVideoIOYuv                m_cTVideoIOYuvInputFile;       ///< input YUV file
+  TVideoIOYuv                m_ReferenceLightField;         ///< Uncompressed light field. Original from dataset
   TVideoIOYuv                m_cTVideoIOYuvReconFile;       ///< output reconstruction file
 
   TComList<TComPicYuv*>      m_cListPicYuvRec;              ///< list of reconstruction YUV files

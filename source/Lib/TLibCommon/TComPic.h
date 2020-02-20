@@ -56,9 +56,10 @@
 class TComPic
 {
 public:
-  typedef enum { PIC_YUV_ORG=0, PIC_YUV_REC=1, PIC_YUV_TRUE_ORG=2, NUM_PIC_YUV=3 } PIC_YUV_T;
+  typedef enum { PIC_YUV_ORG=0, PIC_YUV_REC=1, PIC_YUV_TRUE_ORG=2, LF_YUV_REF=3, LF_YUV_TRUE_REF=4, NUM_PIC_YUV=5 } PIC_YUV_T;
      // TRUE_ORG is the input file without any pre-encoder colour space conversion (but with possible bit depth increment)
   TComPicYuv*   getPicYuvTrueOrg()        { return  m_apcPicYuv[PIC_YUV_TRUE_ORG]; }
+  TComPicYuv*   get_LF_PicYuvTrueOrg()        { return  m_apcPicYuv[LF_YUV_TRUE_REF]; }
 
 private:
   UInt                  m_uiTLayer;               //  Temporal layer
@@ -117,6 +118,7 @@ public:
   const TComDataCU* getCtu( UInt ctuRsAddr ) const { return  m_picSym.getCtu( ctuRsAddr ); }
 
   TComPicYuv*   getPicYuvOrg()        { return  m_apcPicYuv[PIC_YUV_ORG]; }
+  TComPicYuv*   get_LF_PicYuvOrg()        { return  m_apcPicYuv[LF_YUV_REF]; }
   TComPicYuv*   getPicYuvRec()        { return  m_apcPicYuv[PIC_YUV_REC]; }
 
   TComPicYuv*   getPicYuvPred()       { return  m_pcPicYuvPred; }
