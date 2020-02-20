@@ -1,3 +1,10 @@
+# Folders
+bin/
+nbproject/
+build/linux/app/
+build/linux/lib/
+build/linux/utils/
+
 # Prerequisites
 *.d
 
